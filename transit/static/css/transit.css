@@ -7,13 +7,14 @@ h2 {
     margin: 0;
 }
 
-hr {
+hr, .title {
     margin-bottom: 3em;
 }
 
-.title {
-    margin-bottom: 4em;
+hr, .map {
+    border: 1px solid #D8D8D8;
 }
+
 .title h1, .title p {
     text-align: center;
 }
