@@ -2,7 +2,10 @@
 
 {% block main %}
 
-<h1>Itinerary for {{ date }}</h1>
+<div class="title">
+    <h1>Itinerary for {{ this_date }}</h1>
+    <p><a href="{% url 'list_dates' %}">Go back</a></p>
+</div>
 
 {% for activity in activities %}
 {% if not forloop.first %}
