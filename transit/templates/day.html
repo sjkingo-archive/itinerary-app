@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJqGh5g6N2aJVfTL8lt-3TGlRinU5H2Po&sensor=false"></script>
+<style type="text/css">
+    body {
+        width: 100%;
+        margin: 0;
+    }
+    #wrapper {
+        width: 50%;
+        margin: 0 auto;
+    }
+    .map {
+        width: 600px;
+        height: 400px;
+    }
+    .adp-warnbox, .adp-legal, .adp-agencies {
+        display: none;
+    }
+    hr {
+        margin-bottom: 3em;
+    }
+    .clearfix {
+        padding-bottom: 5em;
+        clear: both;
+    }
+    .left {
+        float: left;
+        width: 48%;
+    }
+    .right {
+        float: right;
+        width: 48%;
+    }
+    p.address {
+        color: #666;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 2em;
+    }
+    h2 {
+        margin: 0.5em 0 0.25em 0;
+    }
+</style>
+
+<div id="wrapper">
+
+<h1>Itinerary for {{ date }}</h1>
+
+{% for activity in activities %}
+{% if not forloop.first %}
+
+<div class="activity">
+    <h2>{{ activity.begins|date:"P" }} - {{ activity.name }}</h2>
+    <div class="left">
+        <p class="address">
+            Going from: {{ activity.origin.name }} - {{ activity.origin.address }}<br>
+            Going to: {{ activity.address }}
+        </p>
+        <div class="notes">
+            {{ activity.notes|linebreaks }}
+        </div>
+        <div id="panel-{{ forloop.counter }}" class="panel"></div>
+    </div>
+    <div class="right">
+        <div id="map-{{ forloop.counter }}" class="map"></div>
+    </div>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var renderer = new google.maps.DirectionsRenderer({panel: document.getElementById('panel-{{ forloop.counter }}')});
+        var service = new google.maps.DirectionsService();
+        var map;
+        var mapOptions = {
+            zoom: 7,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(document.getElementById('map-{{ forloop.counter }}'), mapOptions);
+        renderer.setMap(map);
+
+        var request = {
+            origin: '{{ activity.origin.address }}',
+            destination: '{{ activity.address }}',
+            travelMode: google.maps.TravelMode.TRANSIT,
+            unitSystem: google.maps.UnitSystem.METRIC,
+            provideRouteAlternatives: true,
+            transitOptions: {
+                arrivalTime: new Date('{{ activity.date|date:"c" }}T{{ activity.begins|date:"c" }}-04:00')
+            }
+        };
+        service.route(request, function(result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                renderer.setDirections(result);
+            } else {
+                console.log('Error - status: ' + status + ', origin: ' + request.origin + ', dest: ' + request.destination);
+            }
+        });
+    });
+    </script>
+</div>
+<div class="clearfix"></div>
+<hr>
+
+{% endif %}
+{% endfor %}
+</div>
+
+{% endblock %}

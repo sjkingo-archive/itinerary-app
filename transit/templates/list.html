@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<ul>
+{% for date in dates %}
+    <li><a href="{% url 'day_itinerary' date %}">{{ date }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}
