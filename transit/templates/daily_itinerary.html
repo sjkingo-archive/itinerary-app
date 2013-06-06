@@ -8,7 +8,7 @@
 </div>
 
 {% for activity in activities %}
-{% if not forloop.first %}
+{% if not activity.hidden %}
 {% with i=forloop.counter %}
 
 <div class="activity">

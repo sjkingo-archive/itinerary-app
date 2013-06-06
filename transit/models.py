@@ -7,6 +7,8 @@ class Activity(models.Model):
     date = models.DateField()
     begins = models.TimeField(verbose_name='Begins at')
     ends = models.TimeField(verbose_name='Ends at')
+    hidden = models.BooleanField(verbose_name='Hidden?', 
+            help_text='This is typically used on the root entry as it does not have an origin.')
 
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=500)
@@ -28,13 +30,14 @@ class Activity(models.Model):
         # We construct a list here to reduce the number of queries by the
         # number of Activity.objects.count() when we zip the QuerySet's
         # together.
-        r = list(Activity.objects.filter(date=self.date).order_by('begins').all())
+        r = list(Activity.objects.order_by('date', 'begins').all())
         pairs = zip(r, r[1:]) #: [(origin, activity), ..]
         for origin, activity in pairs:
             # Find this activity and return its previous activity in the chain
             if activity == self:
                 return origin
         # Should never get here but it will break the template rendering if we do
-        raise Exception('Could not find an origin for ' + repr(activity))
+        raise Exception('Could not find an origin for ' + repr(self) +
+                '. Perhaps you meant to set hidden=True on this activity?')
 
 admin.site.register(Activity)
