@@ -52,7 +52,8 @@
             unitSystem: google.maps.UnitSystem.METRIC,
             travelMode: google.maps.TravelMode.TRANSIT,
             transitOptions: {
-                arrivalTime: new Date('{{ activity.date|date:"c" }}T{{ activity.begins|date:"c" }}-04:00') // FIXME: horrible
+                // FIXME: this may return incorrect results as day of the week could be different
+                arrivalTime: new Date('{% now "Y-m-d" %}T{{ activity.begins|date:"c" }}-04:00') // FIXME: horrible
             }
         };
 
