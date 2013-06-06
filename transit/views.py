@@ -1,14 +1,14 @@
+import datetime
 from django.shortcuts import render, get_list_or_404
 
 from models import *
 
 def list_dates(req, template='list_dates.html'):
-    activities = Activity.objects.all()
-    dates = set()
-    for a in activities:
-        dates.add(a.date)
-    context = {'dates': dates}
-    return render(req, template, context)
+    dates = [datetime.date(d.year, d.month, d.day) 
+            for d in Activity.objects.dates('date', 'day')]
+    return render(req, template, {
+        'dates': dates
+    })
 
 def daily_itinerary(req, this_date, template='daily_itinerary.html'):
     activities = get_list_or_404(Activity, date=this_date)

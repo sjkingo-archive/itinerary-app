@@ -3,8 +3,8 @@
 {% block main %}
 
 <ul>
-{% for date in dates %}
-    <li><a href="{% url 'daily_itinerary' date %}">{{ date }}</li>
+{% for n in dates %}
+    <li><a href="{% url 'daily_itinerary' n|date:"Y-m-d" %}">{{ n }}</li>
 {% endfor %}
 </ul>
 
