@@ -2,10 +2,10 @@
 
 {% block main %}
 
-<ul>
+<ol class="collapse">
 {% for n in dates %}
-    <li><a href="{% url 'daily_itinerary' n|date:"Y-m-d" %}">{{ n }}</li>
+    <li><a href="{% url 'daily_itinerary' n|date:"Y-m-d" %}">{{ n }}</a></li>
 {% endfor %}
-</ul>
+</ol>
 
 {% endblock %}

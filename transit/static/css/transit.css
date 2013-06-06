@@ -53,3 +53,20 @@ p.address {
 p.error {
     color: red;
 }
+
+ol.collapse {
+    list-style: none;
+    width: 50%;
+    margin: 0 auto;
+}
+ol.collapse a {
+    display: block;
+    padding: 1.25em;
+    margin: 2em 0;
+    border: 1px solid #D8D8D8;
+    background-color: #BFEFFF;
+    text-decoration: none;
+    color: #000;
+    font-size: 1.2em;
+    text-align: center;
+}
