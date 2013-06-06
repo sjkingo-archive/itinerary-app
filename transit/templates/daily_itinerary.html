@@ -56,14 +56,31 @@
             }
         };
 
+        // only perform routeindex firing when the user clicks an alternate route,
+        // not while the route is still being generated
+        var routing_complete = false;
+        google.maps.event.addListener(renderer, 'routeindex_changed', function() {
+            if (routing_complete) {
+                $.post('{% url "set_route_index" %}', {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    id: {{ activity.id }},
+                    route_index: renderer.getRouteIndex()
+                });
+            }
+        });
+
         service.route(request, function(result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 renderer.setDirections(result);
+                {% if activity.route_index %}
+                renderer.setRouteIndex({{ activity.route_index }});
+                {% endif %}
             } else {
                 var err = 'Error while routing: ' + status + ' (origin: "' + request.origin + '", dest: "' + request.destination + '")';
                 console.log(err);
                 panel_div.innerHTML = '<p class="error">' + err + '</p>';
             }
+            routing_complete = true;
         });
     });
     </script>

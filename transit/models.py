@@ -13,6 +13,8 @@ class Activity(models.Model):
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=500)
     notes = models.TextField(blank=True, null=True)
+    route_index = models.IntegerField(blank=True, null=True,
+            help_text='Optional index of the chosen route to this activity.')
 
     class Meta:
         verbose_name = 'Activity'
