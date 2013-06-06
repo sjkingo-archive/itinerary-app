@@ -2,41 +2,49 @@ body {
     width: 100%;
     margin: 0;
 }
-#wrapper {
-    width: 50%;
-    margin: 0 auto;
-}
-.map {
-    width: 600px;
-    height: 400px;
-}
-.adp-warnbox, .adp-legal, .adp-agencies {
-    display: none;
-}
-hr {
-    margin-bottom: 3em;
-}
-.clearfix {
-    padding-bottom: 5em;
-    clear: both;
-}
-.left {
-    float: left;
-    width: 48%;
-}
-.right {
-    float: right;
-    width: 48%;
-}
-p.address {
-    color: #666;
-}
+
 h1 {
     text-align: center;
     margin-bottom: 2em;
 }
 h2 {
     margin: 0.5em 0 0.25em 0;
+}
+
+hr {
+    margin-bottom: 3em;
+}
+
+#wrapper {
+    max-width: 50%;
+    margin: 0 auto;
+}
+
+.map {
+    width: 35em;
+    height: 30em;
+}
+
+/* Google Maps API adds these dynamically */
+.adp-warnbox, .adp-legal, .adp-agencies {
+    display: none;
+}
+
+.clearfix {
+    padding-bottom: 5em;
+    clear: both;
+}
+.left {
+    float: left;
+    max-width: 48%;
+}
+.right {
+    float: right;
+    max-width: 48%;
+}
+
+p.address {
+    color: #666;
 }
 
 p.error {
