@@ -20,7 +20,7 @@ class Activity(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     transport_mode = models.CharField(max_length=10,
-            help_text='Mode of transport to get *to* this activity. Set to Disable to prevent it from'
+            help_text='Mode of transport to get *to* this activity. Set to Disable to prevent it from '
                       'being included in route calculations.',
             choices=TRANSPORT_MODES,
             default='TRANSIT')
