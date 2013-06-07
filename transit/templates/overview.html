@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+{% load admin_urls %}
 
 {% block main %}
 
+{% if groups %}
 {% for date, items in groups %}
     <h1 class="center">{{ date }}</h1>
     <ol class="collapse">
@@ -15,5 +17,8 @@
         {% endfor %}
     </ol>
 {% endfor %}
+{% else %}
+<p class="center">There are no activities to display. <a href="{% url 'admin:transit_activity_add' %}">Add one</a>.</p>
+{% endif %}
 
 {% endblock %}
