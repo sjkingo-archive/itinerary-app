@@ -67,7 +67,7 @@ class Activity(models.Model):
 
                 return (prev_a, this_a, next_a)
 
-    @cached_property
+    @property
     def reversed_url(self):
         return reverse('activity', args=(self.id,))
 
