@@ -23,6 +23,7 @@
             {% endif %}
             Going to: <strong>{{ activity.address }}</strong>
         </p>
+        <p>Transport mode: <strong>{{ activity.to_mode }}</strong></p>
         {% if activity.ends %}
         <p>Ends at: <strong>{{ activity.ends }}</strong></p>
         {% endif %}
@@ -35,14 +36,14 @@
     </div>
 
     <div class="right">
-        {% if prev %}
+        {% if route_to %}
         <div id="map-{{ i }}" class="map"></div>
         {% else %}
-        <p>No map to display as this is the first activity.</p>
+        <p>Directions to this activity have been disabled.</p>
         {% endif %}
     </div>
 
-    {% if prev %}
+    {% if route_to %}
     <script type="text/javascript">
     $(document).ready(function() {
         var panel_div = document.getElementById('panel-{{ i }}');
@@ -60,7 +61,7 @@
             destination: '{{ activity.address }}',
             provideRouteAlternatives: true,
             unitSystem: google.maps.UnitSystem.METRIC,
-            travelMode: google.maps.TravelMode.TRANSIT,
+            travelMode: google.maps.TravelMode.{{ activity.transport_mode }},
             transitOptions: {
                 // FIXME: this may return incorrect results as day of the week could be different
                 arrivalTime: new Date('{% now "Y-m-d" %}T{{ activity.begins|date:"c" }}-04:00') // FIXME: horrible

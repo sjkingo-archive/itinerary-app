@@ -29,6 +29,7 @@ def activity(req, activity_id, template='activity.html'):
     context = {'activity': activity,
                'prev': activity.neighbours[0],
                'next': activity.neighbours[2],
+               'route_to': activity.transport_mode != 'DISABLE',
     }
     return render(req, template, context)
 

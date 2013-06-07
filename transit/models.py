@@ -3,6 +3,13 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.functional import cached_property
 
+TRANSPORT_MODES = (
+    ('DISABLE', 'Disabled'),
+    ('DRIVING', 'Driving/Taxi'),
+    ('TRANSIT', 'Transit'),
+    ('WALKING', 'Walking')
+)
+
 class Activity(models.Model):
     date = models.DateField()
     begins = models.TimeField(verbose_name='Begins at')
@@ -12,6 +19,11 @@ class Activity(models.Model):
     address = models.CharField(max_length=500)
     notes = models.TextField(blank=True, null=True)
 
+    transport_mode = models.CharField(max_length=10,
+            help_text='Mode of transport to get *to* this activity. Set to Disable to prevent it from'
+                      'being included in route calculations.',
+            choices=TRANSPORT_MODES,
+            default='TRANSIT')
     hidden = models.BooleanField(verbose_name='Hidden?', 
             help_text='This is typically used on the root entry as it does not have an origin.')
     route_index = models.IntegerField(blank=True, null=True,
@@ -50,5 +62,9 @@ class Activity(models.Model):
     @cached_property
     def reversed_url(self):
         return reverse('activity', args=(self.id,))
+
+    @property
+    def to_mode(self):
+        return dict(TRANSPORT_MODES)[self.transport_mode]
 
 admin.site.register(Activity)
