@@ -8,3 +8,4 @@ TODO
 * print stylesheet
 * display info message when `set_route_index` is called
 * fix style when no directions are displayed
+* [grapelli](https://github.com/sehmaschine/django-grappelli) admin skin?
