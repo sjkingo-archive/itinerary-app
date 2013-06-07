@@ -46,6 +46,11 @@ class Activity(models.Model):
         Returns a triplet (prev, this, next) of this Activity's neighbours.
         Either (or both) prev and next may be None if we are at the either end
         of the chain.
+
+        We cache this result (@cached_property) as it saves database lookups
+        and CPU time as it has to iterate over all activities.
+        
+        FIXME: use activities.index() instead of iterating over?
         """
         activities = Activity.objects.all()
         for n, this_a in enumerate(activities):
