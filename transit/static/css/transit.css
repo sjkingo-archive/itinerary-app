@@ -15,10 +15,6 @@ hr, .map {
     border: 1px solid #D8D8D8;
 }
 
-h1 {
-    text-align: center;
-}
-
 #wrapper {
     max-width: 50%;
     margin: 0 auto;
@@ -76,6 +72,6 @@ ol.collapse a, div.prev a, div.next a {
     text-align: center;
 }
 
-p.center {
+.center {
     text-align: center;
 }

@@ -3,19 +3,17 @@
 {% block main %}
 
 {% for date, items in groups %}
+    <h1 class="center">{{ date }}</h1>
+    <ol class="collapse">
+        {% for activity in items %}
 
-<h1>{{ date }}</h1>
-<ol class="collapse">
-    {% for activity in items %}
+        <li><a href="{{ activity.reversed_url }}">
+            <span class="left">{{ activity.begins|date:"H:i" }}</span>
+            <span class="right"><em>{{ activity }}</em></span>
+        </a></li>
 
-    <li><a href="{{ activity.reversed_url }}">
-        <span class="left">{{ activity.begins|date:"H:i" }}</span>
-        <span class="right">{{ activity }}</span>
-    </a></li>
-
-    {% endfor %}
-</ol>
-
+        {% endfor %}
+    </ol>
 {% endfor %}
 
 {% endblock %}

@@ -13,12 +13,14 @@
 {% with i=0 %}
 
 <div class="activity">
-    <h2>{{ activity.date }}</h2>
-    <h2>{{ activity.begins|date:"P" }} - {{ activity.name }}</h2>
+    <h1>{{ activity.name }}</h1>
+    <h2>{{ activity.date }} at {{ activity.begins|date:"H:i" }}</h2>
 
     <div class="left">
         <p class="address">
-            Going from: <strong>{{ prev.name }} - {{ prev.address }}</strong><br>
+            {% if prev %}
+            Going from: <strong>{{ prev.address }}</strong><br>
+            {% endif %}
             Going to: <strong>{{ activity.address }}</strong>
         </p>
         {% if activity.ends %}
@@ -33,9 +35,14 @@
     </div>
 
     <div class="right">
+        {% if prev %}
         <div id="map-{{ i }}" class="map"></div>
+        {% else %}
+        <p>No map to display as this is the first activity.</p>
+        {% endif %}
     </div>
 
+    {% if prev %}
     <script type="text/javascript">
     $(document).ready(function() {
         var panel_div = document.getElementById('panel-{{ i }}');
@@ -88,6 +95,7 @@
         });
     });
     </script>
+    {% endif %}
 </div>
 
 <div class="clearfix"></div>
