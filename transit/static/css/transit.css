@@ -75,3 +75,11 @@ ol.collapse a, div.prev a, div.next a {
 .center {
     text-align: center;
 }
+
+ul.horizontal {
+    text-align: center;   
+}
+ul.horizontal li {
+    display: inline-block;
+    margin: 0 1em;
+}
