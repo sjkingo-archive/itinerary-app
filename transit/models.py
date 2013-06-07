@@ -28,7 +28,9 @@ class Activity(models.Model):
             help_text='Prevent this activity from being displayed. Note that it will still be used in '
                       'route calculations unless "Transport mode" is set to "Disabled".')
     route_index = models.IntegerField(blank=True, null=True,
-            help_text='Optional index of the chosen route to this activity.')
+            help_text='Optional index of the chosen route to this activity. Click on a suggested route '
+                      'on the activity page to automatically set this, and that route will be chosen '
+                      'each time the activity is loaded.')
 
     class Meta:
         verbose_name = 'Activity'
