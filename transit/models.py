@@ -24,8 +24,9 @@ class Activity(models.Model):
                       'being included in route calculations.',
             choices=TRANSPORT_MODES,
             default='TRANSIT')
-    hidden = models.BooleanField(verbose_name='Hidden?', 
-            help_text='This is typically used on the root entry as it does not have an origin.')
+    hidden = models.BooleanField(verbose_name='Hidden', 
+            help_text='Prevent this activity from being displayed. Note that it will still be used in '
+                      'route calculations unless "Transport mode" is set to "Disabled".')
     route_index = models.IntegerField(blank=True, null=True,
             help_text='Optional index of the chosen route to this activity.')
 
