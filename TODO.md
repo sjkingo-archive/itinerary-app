@@ -9,3 +9,6 @@ TODO
 * display info message when `set_route_index` is called
 * fix style when no directions are displayed
 * [grapelli](https://github.com/sehmaschine/django-grappelli) admin skin?
+* `transit/models.py:neighbours()`: stop iterating over the list each time
+* allow activities to span multiple days
+* add time zone support instead of assuming one time zone
