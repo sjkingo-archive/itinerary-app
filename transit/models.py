@@ -1,7 +1,7 @@
 from django.contrib import admin
+from django.core.urlresolvers import reverse
 from django.db import models
-
-from itinerary.utils import cached_property
+from django.utils.functional import cached_property
 
 class Activity(models.Model):
     date = models.DateField()
@@ -25,21 +25,29 @@ class Activity(models.Model):
         return self.name
 
     @cached_property
-    def origin(self):
+    def neighbours(self):
         """
-        Returns the activity before this one.
+        Returns a triplet (prev, this, next) of this Activity's neighbours.
+        Either (or both) prev and next may be None if we are at the either end
+        of the chain.
         """
-        # We construct a list here to reduce the number of queries by the
-        # number of Activity.objects.count() when we zip the QuerySet's
-        # together.
-        r = list(Activity.objects.order_by('date', 'begins').all())
-        pairs = zip(r, r[1:]) #: [(origin, activity), ..]
-        for origin, activity in pairs:
-            # Find this activity and return its previous activity in the chain
-            if activity == self:
-                return origin
-        # Should never get here but it will break the template rendering if we do
-        raise Exception('Could not find an origin for ' + repr(self) +
-                '. Perhaps you meant to set hidden=True on this activity?')
+        activities = Activity.objects.all()
+        for n, this_a in enumerate(activities):
+            if this_a == self:
+                try:
+                    prev_a = activities[n-1]
+                except (IndexError, AssertionError), e:
+                    prev_a = None
+
+                try:
+                    next_a = activities[n+1]
+                except IndexError:
+                    next_a = None
+
+                return (prev_a, this_a, next_a)
+
+    @cached_property
+    def reversed_url(self):
+        return reverse('activity', args=(self.id,))
 
 admin.site.register(Activity)

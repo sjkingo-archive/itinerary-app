@@ -1,21 +1,35 @@
 import datetime
-from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.views.decorators.http import require_POST
+import itertools
 
 from models import *
 
-def list_dates(req, template='list_dates.html'):
-    dates = [datetime.date(d.year, d.month, d.day) 
-            for d in Activity.objects.dates('date', 'day')]
+def overview(req, template='overview.html'):
+    activities = Activity.objects.order_by('date', 'begins', 'name')
+    groups = itertools.groupby(activities, lambda x: x.date)
+    a = []
+    for date, items in groups:
+        # Filter out any non-visible activities. This also implicitly fixes
+        # an issue with the template engine failing to iterate over the
+        # itertools._grouper (items) by copying it as a list.
+        visible_items = [i for i in items if not i.hidden]
+        if len(visible_items) > 0:
+            a.append((date, visible_items))
     return render(req, template, {
-        'dates': dates
+        'groups': a
     })
 
-def daily_itinerary(req, this_date, template='daily_itinerary.html'):
-    activities = get_list_or_404(Activity, date=this_date)
-    context = {'activities': activities,
-               'this_date': activities[0].date} # use a datetime object instead of str
+def activity(req, activity_id, template='activity.html'):
+    activity = get_object_or_404(Activity, id=activity_id)
+    if activity.hidden:
+        raise Http404
+    context = {'activity': activity,
+               'prev': activity.neighbours[0],
+               'next': activity.neighbours[2],
+    }
     return render(req, template, context)
 
 @require_POST
