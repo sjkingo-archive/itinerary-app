@@ -34,13 +34,9 @@ def activity(req, activity_id, template='activity.html'):
     return render(req, template, context)
 
 @require_POST
-def set_route_index(req):
+def set_route_index(req, activity_id):
+    activity = get_object_or_404(Activity, id=activity_id)
     if req.POST:
-        activity_id = req.POST.get('id')
-        activity = get_object_or_404(Activity, id=activity_id)
-        # update the new route index
-        new_route_index = int(req.POST.get('route_index'))
-        activity.route_index = new_route_index
+        activity.route_index = int(req.POST.get('route_index'))
         activity.save()
-        # return a "No Content" response
-        return HttpResponse(status=204)
+        return HttpResponse(status=204) # no content

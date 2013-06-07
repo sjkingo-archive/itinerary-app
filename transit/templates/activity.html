@@ -74,9 +74,8 @@
         var routing_complete = false;
         google.maps.event.addListener(renderer, 'routeindex_changed', function() {
             if (routing_complete) {
-                $.post('{% url "set_route_index" %}', {
+                $.post('{% url "set_route_index" activity.id %}', {
                     csrfmiddlewaretoken: '{{ csrf_token }}',
-                    id: {{ activity.id }},
                     route_index: renderer.getRouteIndex()
                 });
             }
