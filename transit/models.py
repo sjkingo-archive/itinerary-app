@@ -6,13 +6,14 @@ from django.utils.functional import cached_property
 class Activity(models.Model):
     date = models.DateField()
     begins = models.TimeField(verbose_name='Begins at')
-    ends = models.TimeField(verbose_name='Ends at')
-    hidden = models.BooleanField(verbose_name='Hidden?', 
-            help_text='This is typically used on the root entry as it does not have an origin.')
+    ends = models.TimeField(verbose_name='Ends at', blank=True, null=True)
 
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=500)
     notes = models.TextField(blank=True, null=True)
+
+    hidden = models.BooleanField(verbose_name='Hidden?', 
+            help_text='This is typically used on the root entry as it does not have an origin.')
     route_index = models.IntegerField(blank=True, null=True,
             help_text='Optional index of the chosen route to this activity.')
 

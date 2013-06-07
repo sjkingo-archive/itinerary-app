@@ -21,6 +21,9 @@
             Going from: <strong>{{ prev.name }} - {{ prev.address }}</strong><br>
             Going to: <strong>{{ activity.address }}</strong>
         </p>
+        {% if activity.ends %}
+        <p>Ends at: <strong>{{ activity.ends }}</strong></p>
+        {% endif %}
         {% if activity.notes %}
         <div class="notes">
             {{ activity.notes|linebreaks }}
