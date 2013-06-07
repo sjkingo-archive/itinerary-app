@@ -26,10 +26,11 @@ def activity(req, activity_id, template='activity.html'):
     activity = get_object_or_404(Activity, id=activity_id)
     if activity.hidden:
         raise Http404
+    route_to = activity.neighbours[0] and activity.transport_mode != 'DISABLE'
     context = {'activity': activity,
                'prev': activity.neighbours[0],
                'next': activity.neighbours[2],
-               'route_to': activity.transport_mode != 'DISABLE',
+               'route_to': route_to,
     }
     return render(req, template, context)
 
